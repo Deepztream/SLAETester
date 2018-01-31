@@ -1,0 +1,19 @@
+<project>
+    <name>SLAETester</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.deepztream</groupId>
+    <artifactId>slaetester</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>com.deepztream</groupId>
+            <artifactId>slae</artifactId>
+            <version>${project.version}</version>
+            </dependency>
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
+    </properties>
+</project>
