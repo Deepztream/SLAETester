@@ -1,12 +1,12 @@
 <project>
     <name>SLAETester</name>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.deepztream</groupId>
+    <groupId>com.abysmal</groupId>
     <artifactId>slaetester</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
-            <groupId>com.deepztream</groupId>
+            <groupId>com.abysmal</groupId>
             <artifactId>slae</artifactId>
             <version>${project.version}</version>
             </dependency>
