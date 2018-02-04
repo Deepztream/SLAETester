@@ -1,24 +1,32 @@
 package com.abysmal.slaetester;
 
 import com.abysmal.slae.SLAE;
-import com.abysmal.slae.Version;
 import com.abysmal.slae.message.Message;
 import com.abysmal.slae.message.MessageBus;
+import com.abysmal.slae.object.GUIObject;
+import com.abysmal.slae.system.Render;
+import com.abysmal.slae.system.System;
 
-public class SLAETester {
+import org.joml.Rectanglef;
+import org.joml.Vector3f;
 
-    public static void main(String[] args) {
-        System.out.println("SLAE Version " + Version.getVersion());
-        MessageBus b = MessageBus.getBus();
+public class SLAETester implements System {
 
-        for(int i = 0; i < 10; i++)
-            b.postMessage(new Message("Hello!", i));
+	public static void main(String[] args) {
+		SLAE.initialise(new SLAETester());
+	}
 
-        SLAE.initialise();
+	public void init() {
+		String shaderPath = SLAETester.class.getResource("/shaders/Basic.shader").getPath();
+		Object[] data = { Render.MAIN_MENU,
+				new GUIObject(new Rectanglef(-0.5f, -0.5f, 0.5f, 0.5f), new Vector3f(0.6f, 0.3f, 0.0f), shaderPath) };
+		MessageBus.getBus().postMessage(new Message("Add GUIObject", data));
+	}
 
-        b.addSystem((m) -> System.out.println((int)m.getData()));
-
-         for(int i = 0; i < 6; i++)
-            b.pushMessage();
-    }
+	@Override
+	public void handleMessage(Message message) {
+		if (message.getMessage().equalsIgnoreCase("slae init")) {
+			init();
+		}
+	}
 }
