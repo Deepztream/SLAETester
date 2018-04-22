@@ -24,8 +24,13 @@ public class SLAETester implements System {
 		SLAE.execute("Add GUIObject", data.clone());
 		data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.gray, shaderPath);
 		SLAE.execute("Add GUIObject", data.clone());
-		Object[] data2 = { new HUDObject(new Vector2i(0, 0), new Vector2i(100, 100), () -> {
-
+		Object[] data2 = { new HUDObject(new Vector2i(0, 0), new Vector2i(100, 100), (b, a, m) -> {
+			if (b == 0 && a == 1) {
+				data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.RED, shaderPath);
+			} else if (b == 0 && a == 0) {
+				data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.gray, shaderPath);
+			}
+			SLAE.execute("Add GUIObject", data.clone());
 		}) };
 		SLAE.execute("Add HUDObject", data2);
 	}
