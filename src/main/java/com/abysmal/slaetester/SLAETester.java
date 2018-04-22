@@ -1,12 +1,14 @@
 package com.abysmal.slaetester;
 
 import java.awt.Color;
+import java.nio.FloatBuffer;
 
 import com.abysmal.slae.SLAE;
+import com.abysmal.slae.framework.Input;
+import com.abysmal.slae.framework.Window;
 import com.abysmal.slae.message.Message;
 import com.abysmal.slae.object.GUIObject;
 import com.abysmal.slae.object.HUDObject;
-import com.abysmal.slae.system.Render;
 import com.abysmal.slae.system.System;
 
 import org.joml.Rectanglef;
@@ -20,19 +22,33 @@ public class SLAETester implements System {
 
 	public void init() {
 		String shaderPath = SLAETester.class.getResource("/shaders/Basic.shader").getPath();
-		Object[] data = { Render.MAIN_MENU, new GUIObject(new Rectanglef(1f, 1f, -1f, -1f), Color.white, shaderPath) };
+		Object[] data = { 1,
+				new GUIObject(new Rectanglef(0, 0, Window.getWidth(), Window.getHeight()), Color.white, shaderPath) };
 		SLAE.execute("Add GUIObject", data.clone());
-		data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.gray, shaderPath);
+		data[1] = new GUIObject(new Rectanglef(0, 0, Window.getWidth(), Window.getHeight() * 0.25f), Color.gray,
+				shaderPath);
 		SLAE.execute("Add GUIObject", data.clone());
-		Object[] data2 = { new HUDObject(new Vector2i(0, 0), new Vector2i(100, 100), (b, a, m) -> {
-			if (b == 0 && a == 1) {
-				data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.RED, shaderPath);
-			} else if (b == 0 && a == 0) {
-				data[1] = new GUIObject(new Rectanglef(-1f, 1f, 1f, .75f), Color.gray, shaderPath);
-			}
-			SLAE.execute("Add GUIObject", data.clone());
+
+		Object[] data2 = { 1, new HUDObject(new Vector2i(0, 0), new Vector2i(100, 100), (b, a, m) -> {
+			java.lang.System.out.println("test");
 		}) };
 		SLAE.execute("Add HUDObject", data2);
+		SLAE.execute("Switch Scene", 1);
+
+		new Thread(() -> {
+			while (SLAE.isRunning()) {
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+				}
+				FloatBuffer JoyInput = Input.getJoystickInput(1);
+				for (int i = 0; i < 20; i++) {
+					java.lang.System.out
+							.print(i < 4 ? (int) (JoyInput.get(i) * 100) + " | " : (int) JoyInput.get(i) + " | ");
+				}
+				java.lang.System.out.println();
+			}
+		}).start();
 	}
 
 	@Override
